@@ -4,8 +4,17 @@ from fastapi import FastAPI, status, Depends
 
 from src.core.config import Settings, get_settings
 from src.core.database import check_db_status
+from src.core.exception import register_exception_handlers
+from src.lifespan import lifespan
 
-app = FastAPI()
+from src.dishes.router import router as dishes_router
+
+app = FastAPI(lifespan=lifespan)
+
+register_exception_handlers(app)
+
+# 注册路由
+app.include_router(dishes_router)
 
 
 # 测试端点

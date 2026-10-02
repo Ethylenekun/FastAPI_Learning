@@ -1,6 +1,9 @@
+from typing import Annotated
+
 from loguru import logger
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from sqlalchemy import text
+from fastapi import Depends
 
 from src.core.config import settings
 from src.core.base_model import Base
@@ -18,6 +21,9 @@ SessionFactory = async_sessionmaker(
 async def get_db():
     async with SessionFactory() as session:
         yield session
+
+
+SessionDep = Annotated[AsyncSession, Depends(get_db)]
 
 
 async def create_db_and_tables():

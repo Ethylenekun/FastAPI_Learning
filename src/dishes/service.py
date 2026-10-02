@@ -44,9 +44,7 @@ class DishService:
     async def update_dish(self, dish_id: int, dish_data: DishUpdate) -> DishResponse:
         try:
             update_data = dish_data.model_dump(exclude_unset=True, exclude_none=True)
-            updated = await self.repository.update(
-                dish_data=update_data, dish_id=dish_id
-            )
+            updated = await self.repository.update(update_data, dish_id)
             if not updated:
                 raise NotFoundException(f"Dish with id {dish_id} not found")
             return DishResponse.model_validate(updated)

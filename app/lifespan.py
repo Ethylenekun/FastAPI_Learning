@@ -21,7 +21,7 @@ class AppState(TypedDict):
 async def lifespan(_: FastAPI):
     engine, AsyncSessionFactory = await setup_database_connection()
 
-    await create_db_and_tables(engine)
+    # await create_db_and_tables(engine)
 
     logger.info("fastapi服务启动")
 

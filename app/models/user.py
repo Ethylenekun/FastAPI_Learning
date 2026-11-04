@@ -46,3 +46,38 @@ class Article(Base):
     )
 
     author: Mapped["User"] = relationship(back_populates="articles")
+    tags: Mapped[list["Tag"]] = relationship(
+        "Tag",
+        secondary="article_tag",
+        back_populates="articles",
+        passive_deletes=True,
+    )
+
+
+class Tag(Base):
+    __tablename__ = "tag"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+
+    articles: Mapped[list["Article"]] = relationship(
+        "Article",
+        secondary="article_tag",
+        back_populates="tags",
+        passive_deletes=True,
+    )
+
+
+class ArticleTag(Base):
+    __tablename__ = "article_tag"
+
+    article_id: Mapped[int] = mapped_column(
+        Integer,
+        ForeignKey("article.id", ondelete="CASCADE"),
+        primary_key=True,
+    )
+    tag_id: Mapped[int] = mapped_column(
+        Integer,
+        ForeignKey("tag.id", ondelete="CASCADE"),
+        primary_key=True,
+        index=True,
+    )

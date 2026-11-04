@@ -12,13 +12,15 @@ from sqlalchemy.ext.asyncio import (
 
 from app.core.config import settings
 from app.models.base_model import Base
-from app.models.user import User, UserExtension
 
 
 async def setup_database_connection() -> (
     tuple[AsyncEngine, async_sessionmaker[AsyncSession]]
 ):
-    engine: AsyncEngine = create_async_engine(url=settings.DB_URL, echo=False)
+    engine: AsyncEngine = create_async_engine(
+        url=settings.DB_URL,
+        **settings.engine_options,
+    )
 
     AsyncSessionFactory = async_sessionmaker(
         bind=engine,

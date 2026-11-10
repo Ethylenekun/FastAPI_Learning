@@ -18,8 +18,8 @@ async def setup_database_connection() -> (
     tuple[AsyncEngine, async_sessionmaker[AsyncSession]]
 ):
     engine: AsyncEngine = create_async_engine(
-        url=settings.DB_URL,
-        **settings.engine_options,
+        url=settings.DB.DATABASE_URL,
+        **settings.DB.engine_options,
     )
 
     AsyncSessionFactory = async_sessionmaker(

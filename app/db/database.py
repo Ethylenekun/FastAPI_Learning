@@ -11,7 +11,7 @@ from sqlalchemy.ext.asyncio import (
 )
 
 from app.core.config import settings
-from app.models.base_model import Base
+from app.models.base import Base
 
 
 async def setup_database_connection() -> (
